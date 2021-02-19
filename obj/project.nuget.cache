@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "g23HFMTejRSW0L9DUSy4CNhoRL9yr37dZLNRFKQeRAfYBe8UyHp3uqY2pusqDuleiemJZXGShPNp4/IKn+B/0g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\crist\\Desktop\\Programacion III\\Tarea-5\\Tarea-5.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\crist\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
