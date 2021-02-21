@@ -1,0 +1,34 @@
+@page "/Ejercicio-2"
+@using Tarea_5.Models
+@using Tarea_5.Dbcontext
+
+<h1 class="text-center">Consulta #2</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <p>Los 5 productos mas caros.</p>
+    </div>
+    <div class="col justify-content-center table-responsive">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Nombre de Producto</th>
+                <th>Código de Producto</th>
+                <th>Costo de Producto</th>
+            </thead>
+            <tbody>
+                @foreach (Products product in GetHighCostProduct()) 
+                {
+                    <tr>
+                        <td>@product.ProductName</td>
+                        <td>@product.ProductCode</td>
+                        <td>@product.StandardCost</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 
+
+@code {
+    List<Products> GetHighCostProduct() => new northwindContext().Products.OrderByDescending(p => p.StandardCost)
+        .Take(5).ToList();
+}

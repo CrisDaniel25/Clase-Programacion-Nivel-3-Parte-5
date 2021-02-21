@@ -1,0 +1,39 @@
+@page "/Ejercicio-4"
+@using Tarea_5.Models
+@using Tarea_5.Dbcontext
+
+<h1 class="text-center">Consulta #4</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <p>La cantidad de productos que existen por categoría. Nombre de categoría y cantidad de productos.</p>
+    </div>
+    <div class="col justify-content-center">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Categoría</th>
+                <th>Cantidad de Productos</th>
+            </thead>
+            <tbody>
+                @foreach (string name in GetCategory()) 
+                {
+                    <tr>
+                        <td>@name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    IEnumerable<string> GetCategory() => new northwindContext().Products.Select(p => p.Category).ToList().Distinct();
+    public int quantity {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        foreach(string name in GetCategory())
+        {
+            quantity = new northwindContext().Products.Where(p => p.Category == name).Count();
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@page "/Ejercicio-1"
+@using Tarea_5.Models
+@using Tarea_5.Dbcontext
+
+<h1 class="text-center">Consulta #1</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <p>Listado de los empleados, nombre, apellido y teléfono.</p>
+    </div>
+    <div class="col justify-content-center table-responsive">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+            </thead>
+            <tbody>
+                @foreach (Employees emp in GetEmployees()) 
+                {
+                    <tr>
+                        <td>@emp.FirstName</td>
+                        <td>@emp.LastName</td>
+                        <td>@emp.BusinessPhone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    List<Employees> GetEmployees() => new northwindContext().Employees.ToList();
+}

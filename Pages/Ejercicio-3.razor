@@ -1,0 +1,40 @@
+@page "/Ejercicio-3"
+@using Tarea_5.Models
+@using Tarea_5.Dbcontext
+@using System.Collections.Generic
+
+<h1 class="text-center">Consulta #3</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <p>La cantidad de clientes que existen por pais.</p>
+    </div>
+    <div class="col justify-content-center table-responsive">
+        <ul class="list-group">
+            <li class="list-group-item text-center">
+                <h3 class="text-center">Cantidad de Clientes: <strong>@QuatityCustomer</strong></h3>
+            </li>
+            <li class="list-group-item text-center">
+                <h3 class="text-center">Cantidad de Paises: <strong>@QuatityCountry</strong></h3>
+            </li>
+            <li class="list-group-item text-center">
+                <h3 class="text-center">Pais: <strong>@CountryName</strong></h3>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    public int QuatityCustomer {get; set;}    
+    public int QuatityCountry {get; set;}
+    public string CountryName {get; set;}    
+
+    protected override async Task OnInitializedAsync() 
+    { 
+        var customers = new northwindContext() .Customers.Select(c => c.CountryRegion).Count();
+        QuatityCustomer = customers;
+        var country = new northwindContext().Customers.Select(c => c.CountryRegion).Distinct().Count();
+        QuatityCountry = country;
+        var name = new northwindContext().Customers.Select(c => c.CountryRegion).Distinct().SingleOrDefault();
+        CountryName = name;
+    }
+}
