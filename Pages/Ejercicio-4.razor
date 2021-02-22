@@ -14,10 +14,11 @@
                 <th>Cantidad de Productos</th>
             </thead>
             <tbody>
-                @foreach (string name in GetCategory()) 
-                {
+                @foreach(Query categories in GetCategory()) 
+                {    
                     <tr>
-                        <td>@name</td>
+                        <td>@categories.Categories</td>
+                        <td>@categories.Quatity</td>
                     </tr>
                 }
             </tbody>
@@ -26,14 +27,16 @@
 </div>
 
 @code {
-    IEnumerable<string> GetCategory() => new northwindContext().Products.Select(p => p.Category).ToList().Distinct();
-    public int quantity {get; set;}
+    IEnumerable<Query> GetCategory() => new northwindContext().Products.GroupBy(p => 
+        p.Category, (Category, categories) => new Query {
+            Categories = Category,
+            Quatity = categories.Count()
+        }).AsEnumerable();
 
-    protected override async Task OnInitializedAsync()
+    public class Query
     {
-        foreach(string name in GetCategory())
-        {
-            quantity = new northwindContext().Products.Where(p => p.Category == name).Count();
-        }
+        public string Categories {get; set;}
+        public int Quatity {get; set;}
     }
 }
+  

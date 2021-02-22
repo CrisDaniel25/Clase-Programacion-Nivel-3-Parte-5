@@ -8,9 +8,43 @@
         <p>Las unidades vendidas de cada producto, mostradas de mayor a menor: producto y cantidad de unidades vendidas.</p>
     </div>
     <div class="col justify-content-center">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Product Id</th>
+                <th>Quantity</th>
+            </thead>
+            <tbody>
+                @foreach (OrderDetails order in GetOrderDetails()) 
+                {
+                    <tr>
+                        <td>@order.ProductId</td>
+                        <td>@order.ProductId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
 @code {
-    
+    List<Products> GetProducts() => new northwindContext().Products.ToList();
+    List<OrderDetails> GetOrderDetails() => new northwindContext().OrderDetails.ToList();
+    @* IEnumarable<> *@
+
+    protected override async Task OnInitializedAsync()
+    {
+        var information = from o in GetOrderDetails()
+                                join p in GetProducts()
+                                on o.ProductId equals p.Id
+                                select new {
+                                    Quantity = o.Quantity,
+                                    ProductName = p.ProductName
+                                }; 
+    }
+
+    public class Query
+    {
+        public string ProductName {get; set;}
+        public decimal Quatity {get; set;}
+    }
 }
