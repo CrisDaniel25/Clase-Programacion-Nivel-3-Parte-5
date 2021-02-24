@@ -8,9 +8,26 @@
         <p>El total de ventas vendidas en el mes de agosto del 2012.</p>
     </div>
     <div class="col justify-content-center">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Codigo de compra</th>
+                <th>Codigo de producto</th>
+                <th>Costo por unidad</th>
+            </thead>
+            <tbody>
+                @foreach(PurchaseOrderDetails item in Get())
+                {
+                    <tr>
+                        <td>@item.PurchaseOrderId</td>
+                        <td>@item.ProductId</td>
+                        <td>@item.UnitCost</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
 @code {
-    
+    IEnumerable<PurchaseOrderDetails> Get() => new northwindContext().PurchaseOrderDetails.Where(p => p.DateReceived == new DateTime(2012)).AsEnumerable().ToList();
 }

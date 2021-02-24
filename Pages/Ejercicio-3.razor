@@ -9,17 +9,20 @@
         <p>La cantidad de clientes que existen por pais.</p>
     </div>
     <div class="col justify-content-center table-responsive">
-        <ul class="list-group">
-            <li class="list-group-item text-center">
-                <h3 class="text-center">Cantidad de Clientes: <strong>@QuatityCustomer</strong></h3>
-            </li>
-            <li class="list-group-item text-center">
-                <h3 class="text-center">Cantidad de Paises: <strong>@QuatityCountry</strong></h3>
-            </li>
-            <li class="list-group-item text-center">
-                <h3 class="text-center">Pais: <strong>@CountryName</strong></h3>
-            </li>
-        </ul>
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Cantidad de Clientes</th>
+                <th>Cantidad de Paises</th>
+                <th>Pais</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@QuatityCustomer</td>
+                    <td>@QuatityCountry</td>
+                    <td>@CountryName</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

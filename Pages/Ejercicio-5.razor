@@ -10,16 +10,19 @@
     <div class="col justify-content-center">
         <table class="table table-hover table-bordered border-dark">
             <thead>
-                <th>Product Id</th>
-                <th>Quantity</th>
+                <th>Nombre de Producto</th>
+                <th>Cantidades Vendidas</th>
             </thead>
             <tbody>
-                @foreach (OrderDetails order in GetOrderDetails()) 
+                @foreach(Query item in query) 
                 {
-                    <tr>
-                        <td>@order.ProductId</td>
-                        <td>@order.ProductId</td>
-                    </tr>
+                    foreach(var result in item.Products)
+                    {
+                        <tr>
+                            <td>@result.ProductName</td>
+                            <td>@item.OrderDetails.Quantity</td>
+                        </tr>
+                    }                    
                 }
             </tbody>
         </table>
@@ -27,24 +30,28 @@
 </div>
 
 @code {
-    List<Products> GetProducts() => new northwindContext().Products.ToList();
-    List<OrderDetails> GetOrderDetails() => new northwindContext().OrderDetails.ToList();
-    @* IEnumarable<> *@
+    public static List<OrderDetails> Order {get; set;}
+    public static List<Products> Product {get; set;}
+    public static IEnumerable<Query> query {get; set;}
 
     protected override async Task OnInitializedAsync()
     {
-        var information = from o in GetOrderDetails()
-                                join p in GetProducts()
-                                on o.ProductId equals p.Id
-                                select new {
-                                    Quantity = o.Quantity,
-                                    ProductName = p.ProductName
-                                }; 
+        Order = new northwindContext().OrderDetails.ToList();
+        Product = new northwindContext().Products.ToList();
+
+        query = Order.OrderByDescending(o => o.Quantity).GroupJoin(
+            Product,
+            order => order.ProductId,
+            product => product.Id,
+            (order, product) => new Query {
+                OrderDetails = order,
+                Products = product
+            }).AsEnumerable();
     }
 
     public class Query
     {
-        public string ProductName {get; set;}
-        public decimal Quatity {get; set;}
+        public IEnumerable<Products> Products {get; set;}
+        public OrderDetails OrderDetails {get; set;}
     }
 }

@@ -8,9 +8,50 @@
         <p>Mostrar los transportistas y la cantidad de envios que han hecho.</p>
     </div>
     <div class="col justify-content-center">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Transportistas</th>
+                <th>Cantidad de envio</th>
+            </thead>
+            <tbody>
+                @foreach(Query item in query) 
+                {
+                    foreach(var result in item.Shippers)
+                    {
+                        <tr>
+                            <td>@result.Company</td>
+                            <td>@item.Orders</td>
+                        </tr>
+                    }                    
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
 @code {
-    
+    public static List<Orders> Order {get; set;}
+    public static List<Shippers> Shipper {get; set;}
+    public static IEnumerable<Query> query {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        Order = new northwindContext().Orders.ToList();
+        Shipper = new northwindContext().Shippers.ToList();
+
+        query = Order.OrderByDescending(o => o.ShipperId).GroupJoin(
+            Shipper,
+            order => order.ShipperId,
+            shipper => shipper.Id,
+            (order, shipper) => new Query {
+                Orders = order.ShipperId,
+                Shippers = shipper
+            }).AsEnumerable();
+    }
+
+    public class Query
+    {
+        public IEnumerable<Shippers> Shippers {get; set;}
+        public int? Orders {get; set;}
+    }
 }

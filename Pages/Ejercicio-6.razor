@@ -8,9 +8,38 @@
         <p>Los 10 clientes que mas han comprado, mostrando el codigo, nombre y monto total vendido.</p>
     </div>
     <div class="col justify-content-center">
+        <table class="table table-hover table-bordered border-dark">
+            <thead>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Monto Total Vendido</th>
+            </thead>
+            <tbody>
+                @* @foreach(var item in Order)
+                {
+                    <tr>
+                        <td>@item.CustomerId</td>
+                        <td>@item.ShipName</td>
+                        <td>@item.ShippingFee</td>
+                    </tr>
+                } *@
+            </tbody>
+        </table>
     </div>
 </div>
 
 @code {
-    
+    @* IEnumerable<Query> Order = new northwindContext().Orders.GroupBy(o => o.ShipName)
+        .Select(order => new Query {
+            CustomerId = order.CustomerId,
+            ShipName = order.ShipName,
+            ShippingFee = order.ShippingFee.Sum()
+        }).ToList(); *@
+
+    public class Query
+    {
+        public int CustomerId {get; set;}
+        public string ShipName {get; set;}
+        public decimal ShippingFee {get; set;}
+    }
 }
